@@ -1,0 +1,51 @@
+Name:		ufomaker
+Version:	0.0
+Synopsis:	The UFO (Universal FeynRules Output) format generator 
+Description: 	Universal FeynRules Output (UFO) format is a common interface 
+                for a new phyics model to HEP monte carlo tools such as MadGraph
+                and WHIZARD. This program is an automatic generator for a UFO 
+                formatted model directory.   
+License: 	GPL-3
+License-file:	LICENSE
+Author:		Ian-Woo Kim
+Maintainer: 	Ian-Woo Kim <ianwookim@gmail.com>
+Build-Type: 	Simple
+Cabal-Version:  >= 1.8
+data-files:     template/*.py.ht
+          template/*.dat.ht
+
+
+
+
+Executable ufomaker
+  Main-is: ufomaker.hs
+  hs-source-dirs: exe
+  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-prof-options: -caf-all -auto-all
+  Build-Depends: 
+                   base>4, 
+                   mtl>2, 
+                   directory, 
+                   filepath,
+                   cmdargs, 
+                   ufomaker
+
+Library
+  hs-source-dirs: lib
+  ghc-options: 	-Wall -O2 -threaded -funbox-strict-fields -fno-warn-unused-do-bind
+  ghc-prof-options: -caf-all -auto-all
+  Build-Depends: 
+                   base>4, 
+                   mtl>2, 
+                   directory, 
+                   filepath,
+                   cmdargs, 
+                   hastache >= 0.5
+  Exposed-Modules: 
+                   HEP.Text.UFO.ProgType
+                   HEP.Text.UFO.Job
+                   HEP.Text.UFO.Command
+  Other-Modules: 
+
+ 
+		 
