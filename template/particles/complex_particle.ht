@@ -1,0 +1,17 @@
+
+{{varname}}  = Particle(pdg_code = {{pdg_code}},
+              name = '{{name}}',
+              antiname = '{{antiname}}',
+              spin = {{spin}},
+              color = {{color}},
+              mass = {{mass}},
+              width = {{width}},
+              texname = '{{texname}}',
+              antitexname = '{{antitexname}}',
+              charge = {{charge}},
+              GhostNumber = {{ghostNumber}},
+              LeptonNumber = {{leptonNumber}})
+
+{{varname}}__tilde__ = {{varname}}.anti()
+
+
