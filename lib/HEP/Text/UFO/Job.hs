@@ -14,8 +14,8 @@ import HEP.Text.UFO.Type
 import Paths_ufomaker 
 
 
-makeParticleContext :: (String,Particle) -> String -> MuType m 
-makeParticleContext (varname,Particle {..}) = context 
+mkPtlCtxt :: (String,Particle) -> String -> MuType m 
+mkPtlCtxt (varname,Particle {..}) = context 
   where context "varname" = MuVariable ("ve" :: String)
         context "pdg_code" = MuVariable ptl_pdg_code
         context "name" = MuVariable ptl_name
@@ -32,6 +32,26 @@ makeParticleContext (varname,Particle {..}) = context
         context "leptonNumber" = MuVariable (ratioShow ptl_leptonNumber)
         context _ = MuNothing
 
+{-
+mkParamCtxt :: (String,Particle) -> String -> MuType m 
+mkParamCtxt (varname,Parameter {..}) = context 
+  where context "varname" = MuVariable ("ve" :: String)
+        context "pdg_code" = MuVariable ptl_pdg_code
+        context "name" = MuVariable ptl_name
+        context "antiname" = MuVariable ptl_antiname 
+        context "spin" = MuVariable (spin2Int ptl_spin 
+                                     * if (isGhost ptl_ghostNumber) then -1 else 1 )
+        context "color" = MuVariable (colorRep2Int ptl_color)
+        context "mass" = MuVariable (paramShow ptl_mass)
+        context "width" = MuVariable (paramShow ptl_width)
+        context "texname" = MuVariable ptl_texname
+        context "antitexname" = MuVariable ptl_antitexname
+        context "charge" = MuVariable (ratioShow ptl_charge)
+        context "ghostNumber" = MuVariable ptl_ghostNumber
+        context "leptonNumber" = MuVariable (ratioShow ptl_leptonNumber)
+        context _ = MuNothing
+-}
+
 
 sm_partilces = 
   [ ("ve",Particle 12 "ve" "ve~" S12 C1 Zero Zero "ve" "ve~" 0 0 1)
@@ -47,11 +67,9 @@ startJob = do
       particledir = tdir </> "particles"
       complex_particle_ht = particledir </> "complex_particle.ht"
   bstr <- B.readFile complex_particle_ht
-  rs <- mapM (hastacheStr defaultConfig bstr . mkStrContext . makeParticleContext)  sm_partilces
+  rs <- mapM (hastacheStr defaultConfig bstr . mkStrContext . mkPtlCtxt)  sm_partilces
   mapM_ L.putStrLn rs 
- where
-  context = makeParticleContext 
-              ("ve",Particle 12 "ve" "ve~" S12 C1 Zero Zero "ve" "ve~" 0 0 1)
+
 
 
 {-  context "pdg_code" = MuVariable (100 :: Int)
